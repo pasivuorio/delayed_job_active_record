@@ -63,6 +63,15 @@ module Delayed
 
         def self.before_fork
           ::ActiveRecord::Base.clear_all_connections!
+
+          if defined?(Sequel)
+            begin
+              Sequel.synchronize do
+                Sequel::DATABASES.each { |database| database.disconnect }
+              end
+            rescue
+            end
+          end
         end
 
         def self.after_fork

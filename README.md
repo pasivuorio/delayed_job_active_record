@@ -3,6 +3,8 @@ you're reading the documentation for the master branch.
 [View documentation for the latest release
 (4.1.4).](https://github.com/collectiveidea/delayed_job_active_record/tree/v4.1.4)**
 
+Note: this fork has support for clearing up database connections in fork also for Sequel (needed by apps using both)
+
 # DelayedJob ActiveRecord Backend
 
 [![Gem Version](https://img.shields.io/gem/v/delayed_job_active_record.svg)](https://rubygems.org/gems/delayed_job_active_record)

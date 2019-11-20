@@ -9,6 +9,15 @@ module Delayed
 
         def initialize
           self.reserve_sql_strategy = :optimized_sql
+
+          if defined?(Sequel)
+            begin
+              Sequel.synchronize do
+                Sequel::DATABASES.each { |database| database.disconnect }
+              end
+            rescue
+            end
+          end
         end
 
         def reserve_sql_strategy=(val)

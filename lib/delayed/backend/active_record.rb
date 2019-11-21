@@ -12,10 +12,9 @@ module Delayed
 
           if defined?(Sequel)
             begin
-              Sequel.synchronize do
-                Sequel::DATABASES.each { |database| database.disconnect }
-              end
+              Sequel::DATABASES.each { |database| database.disconnect }
             rescue
+              puts "disconnected sequel connection due to fork"
             end
           end
         end
@@ -75,15 +74,22 @@ module Delayed
 
           if defined?(Sequel)
             begin
-              Sequel.synchronize do
-                Sequel::DATABASES.each { |database| database.disconnect }
-              end
+              Sequel::DATABASES.each { |database| database.disconnect }
             rescue
+              puts "disconnected sequel connection due to fork"
             end
           end
         end
 
         def self.after_fork
+          if defined?(Sequel)
+            begin
+              Sequel::DATABASES.each { |database| database.disconnect }
+            rescue
+              puts "disconnected sequel connection due to fork"
+            end
+          end
+
           ::ActiveRecord::Base.establish_connection
         end
 
